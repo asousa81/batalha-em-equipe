@@ -1,0 +1,23 @@
+BATALHA EM EQUIPE - app instalável (PWA)
+
+O QUE É
+Um site que se instala no celular como app (Android e iPhone), com ícone da TG, tela cheia e funcionamento sem internet depois da primeira abertura.
+
+COMO COLOCAR NO AR (uma vez só)
+O app precisa de um endereço https. O jeito mais simples é o GitHub Pages:
+1. Crie um repositório PÚBLICO no GitHub (ex.: batalha-em-equipe).
+2. Envie TODOS os arquivos desta pasta para a raiz do repositório (botão "Add file > Upload files").
+3. Em Settings > Pages: Source = "Deploy from a branch", Branch = main, pasta = / (root). Salve.
+4. Em 1 a 2 minutos o endereço aparece: https://SEU-USUARIO.github.io/batalha-em-equipe/
+
+COMO INSTALAR (cada pessoa)
+- Android (Chrome): abra o endereço e toque em "Instalar o app no celular" na tela inicial do jogo (ou menu ⋮ > Instalar app).
+- iPhone (Safari): abra o endereço, toque em Compartilhar (quadrado com seta) > "Adicionar à Tela de Início".
+Depois disso o ícone da TG aparece junto com os outros apps.
+
+ATUALIZAR O JOGO NO FUTURO
+Troque os arquivos no repositório e mude o número em sw.js (var VERSAO = "batalha-v2"). Na próxima abertura com internet o app se atualiza sozinho.
+
+OBSERVAÇÕES
+- No iPhone o som não toca com o botão lateral no silencioso.
+- Cada celular guarda a própria partida e as perguntas já vistas.
