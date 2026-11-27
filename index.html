@@ -555,14 +555,14 @@ function render(){
 
 function telaSetup(){
   return "<div class='corpo c'><span class='logo' role='img' aria-label='Igreja do Evangelho Quadrangular Templo Gospel'></span>"+
-   "<h1>Batalha em Equipe</h1><p class='sub'>Guerras Espirituais · todos juntos contra o inimigo</p>"+
+   "<h1>Batalha em Equipe</h1><p class='sub'>Guerras Espirituais · todos juntos contra o inimigo</p><div id='inst' style='width:100%'></div>"+
    "<div class='painel'><ol class='regras'>"+
    "<li><b>Passem o celular</b> e discutam: o grupo escolhe a resposta junto.</li>"+
    "<li>Acertou: o inimigo perde força. Errou: <b>cai uma peça da armadura</b> (Efésios 6).</li>"+
    "<li>Derrotem <b>3 inimigos</b>. Se as 6 peças caírem, o nível recomeça.</li>"+
    "<li>Ajudas sem limite: <b>pista</b>, <b>tirar 2 alternativas</b> e <b>1 minuto na apostila</b>.</li></ol>"+
    "<div class='duas'><label class='campo'>Tempo por pergunta<select id='tp'><option value='45'"+(G.tempo===45?" selected":"")+">45 segundos</option><option value='0'"+(G.tempo===0?" selected":"")+">Sem cronômetro</option></select></label>"+
-   "<label class='campo'>Som<select id='sm'><option value='1'"+(somOn?" selected":"")+">Ligado</option><option value='0'"+(somOn?"":" selected")+">Desligado</option></select></label></div></div><div id='inst'></div></div>"+
+   "<label class='campo'>Som<select id='sm'><option value='1'"+(somOn?" selected":"")+">Ligado</option><option value='0'"+(somOn?"":" selected")+">Desligado</option></select></label></div></div></div>"+
    "<div class='barra'><button class='btn' id='go'>Começar a batalha</button></div>";
 }
 function telaNivel(){
@@ -641,9 +641,10 @@ function standalone(){ try { return window.matchMedia("(display-mode: standalone
 function instHTML(){
   var x = $("inst"); if (!x) return;
   if (standalone() || location.protocol.indexOf("http") !== 0){ x.innerHTML = ""; return; }
-  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  if (instEv){ x.innerHTML = "<button class='btn sec' id='instb'>📲 Instalar o app no celular</button>"; $("instb").onclick = function(){ instEv.prompt(); instEv = null; x.innerHTML = ""; }; }
-  else if (ios){ x.innerHTML = "<div class='dica'><b>📲 Instalar no iPhone</b><br>Toque em <b>Compartilhar</b> (quadrado com seta) e depois em <b>Adicionar à Tela de Início</b>.</div>"; }
+  var ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (instEv){ x.innerHTML = "<button class='btn' id='instb'>📲 Instalar o app no celular</button>"; $("instb").onclick = function(){ instEv.prompt(); instEv = null; x.innerHTML = ""; }; }
+  else if (ios){ x.innerHTML = "<div class='dica'><b>📲 Instalar no iPhone</b><br>No Safari, toque em <b>Compartilhar</b> (quadrado com seta) e depois em <b>Adicionar à Tela de Início</b>.</div>"; }
+  else { x.innerHTML = "<div class='dica'><b>📲 Instalar como app</b><br>No Chrome, abra o menu <b>⋮</b> e toque em <b>Instalar app</b> (ou <b>Adicionar à tela inicial</b>).</div>"; }
 }
 
 /* ---------- ligações ---------- */
