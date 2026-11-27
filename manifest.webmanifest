@@ -3,7 +3,7 @@
   "short_name": "Batalha",
   "description": "Jogo cooperativo de revisão do módulo Guerras Espirituais (IEQ Templo Gospel)",
   "lang": "pt-BR",
-  "start_url": "./index.html",
+  "start_url": "./jogo.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

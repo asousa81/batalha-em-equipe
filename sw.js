@@ -1,7 +1,7 @@
 // Service worker: guarda o jogo no aparelho para abrir sem internet.
 // Para publicar uma nova versão, troque o número em VERSAO.
-var VERSAO = "batalha-v2";
-var ARQUIVOS = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
+var VERSAO = "batalha-v3";
+var ARQUIVOS = ["./", "index.html", "jogo.html", "logo.png", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 self.addEventListener("install", function(e){
   e.waitUntil(caches.open(VERSAO).then(function(c){ return c.addAll(ARQUIVOS); }).then(function(){ return self.skipWaiting(); }));
 });
@@ -14,7 +14,7 @@ self.addEventListener("fetch", function(e){
     var rede = fetch(e.request).then(function(r){
       if (r && r.ok && new URL(e.request.url).origin === location.origin){ var cp = r.clone(); caches.open(VERSAO).then(function(c){ c.put(e.request, cp); }); }
       return r;
-    }).catch(function(){ return hit || caches.match("index.html"); });
+    }).catch(function(){ return hit || caches.match("jogo.html"); });
     return hit || rede;
   }));
 });
