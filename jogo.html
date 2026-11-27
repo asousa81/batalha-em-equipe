@@ -376,7 +376,7 @@ try { somOn = localStorage.getItem(CHAVE_SOM) !== "0"; } catch(e){}
 var $ = function(id){ return document.getElementById(id); };
 function esc(t){ var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
 function embaralha(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
-function salva(){ try { G.t = Date.now(); localStorage.setItem(CHAVE, JSON.stringify(G)); } catch(e){} }
+function salva(){ if (pend) return; try { G.t = Date.now(); localStorage.setItem(CHAVE, JSON.stringify(G)); } catch(e){} }
 
 /* ---------- som e vibração ---------- */
 var ac = null;
@@ -555,7 +555,7 @@ function render(){
 
 function telaSetup(){
   return "<div class='corpo c'><span class='logo' role='img' aria-label='Igreja do Evangelho Quadrangular Templo Gospel'></span>"+
-   "<h1>Batalha em Equipe</h1><p class='sub'>Guerras Espirituais · todos juntos contra o inimigo</p><div id='inst' style='width:100%'></div>"+
+   "<h1>Batalha em Equipe</h1><p class='sub'>Guerras Espirituais · todos juntos contra o inimigo</p><div id='inst' style='width:100%'></div>"+(pend?"<div class='dica'><b>Partida em andamento</b><br>Nível "+(pend.nivel+1)+" de 3. Quer continuar de onde parou?<br><button class='btn' id='cont' style='margin-top:.5rem'>▶ Continuar a batalha</button></div>":"")+
    "<div class='painel'><ol class='regras'>"+
    "<li><b>Passem o celular</b> e discutam: o grupo escolhe a resposta junto.</li>"+
    "<li>Acertou: o inimigo perde força. Errou: <b>cai uma peça da armadura</b> (Efésios 6).</li>"+
@@ -651,7 +651,8 @@ function instHTML(){
 function ligar(){
   var s;
   if ((s = $("som"))) s.onclick = function(){ var sb = $("som"); somOn = !somOn; try { localStorage.setItem(CHAVE_SOM, somOn?"1":"0"); } catch(e){} sb.textContent = somOn?"🔊":"🔇"; sb.setAttribute("aria-pressed", ""+somOn); sb.setAttribute("aria-label", somOn?"Som ligado. Tocar para desligar":"Som desligado. Tocar para ligar"); if (somOn) som("clique"); };
-  if ((s = $("go"))) s.onclick = function(){ somOn = $("sm").value === "1"; try { localStorage.setItem(CHAVE_SOM, somOn?"1":"0"); } catch(e){} var tp = +$("tp").value; G = novo(tp); G.nivel = 0; som("clique"); abreNivel(); };
+  if ((s = $("cont"))) s.onclick = function(){ G = pend; pend = null; G.apRest = 0; som("clique"); render(); if (G.tela === "jogo" && G.fase === "q") iniciaTempo(); };
+  if ((s = $("go"))) s.onclick = function(){ somOn = $("sm").value === "1"; try { localStorage.setItem(CHAVE_SOM, somOn?"1":"0"); } catch(e){} var tp = +$("tp").value; G = novo(tp); G.nivel = 0; pend = null; som("clique"); abreNivel(); };
   if ((s = $("comeca"))) s.onclick = function(){ som("clique"); comecaNivel(); };
   if ((s = $("segue"))) s.onclick = function(){ G.nivel++; abreNivel(); };
   if ((s = $("refaz"))) s.onclick = function(){ comecaNivel(); };
@@ -672,9 +673,9 @@ function ligar(){
 function reinicia(){ paraTempo(); pararAp(); var tp = G ? G.tempo : 45; G = novo(tp); render(); }
 
 /* ---------- início ---------- */
-var guardado = null;
+var guardado = null, pend = null;
 try { guardado = JSON.parse(localStorage.getItem(CHAVE) || "null"); if (guardado && (!guardado.t || Date.now() - guardado.t > 6*3600*1000)) guardado = null; } catch(e){}
-if (guardado && guardado.tela && guardado.tela !== "setup" && guardado.lista){ G = guardado; G.apRest = 0; render(); if (G.tela === "jogo" && G.fase === "q") iniciaTempo(); }
+if (guardado && guardado.tela === "jogo" && guardado.lista){ pend = guardado; G = novo(guardado.tempo === 0 ? 0 : 45); render(); }
 else { G = novo(45); render(); }
 })();
 </script>

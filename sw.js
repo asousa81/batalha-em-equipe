@@ -1,6 +1,6 @@
 // Service worker: guarda o jogo no aparelho para abrir sem internet.
 // Para publicar uma nova versão, troque o número em VERSAO.
-var VERSAO = "batalha-v3";
+var VERSAO = "batalha-v4";
 var ARQUIVOS = ["./", "index.html", "jogo.html", "logo.png", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png"];
 self.addEventListener("install", function(e){
   e.waitUntil(caches.open(VERSAO).then(function(c){ return c.addAll(ARQUIVOS); }).then(function(){ return self.skipWaiting(); }));
